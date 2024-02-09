@@ -1,9 +1,9 @@
-import './ColorConverter.css'
+import './ColorConverter.css';
 import { FC, useState } from "react";
 
 type FormType = {
     name: string;
-}
+};
 
 export const ColorConverter: FC = () => {
 
@@ -17,16 +17,21 @@ export const ColorConverter: FC = () => {
         } = e;
     
         const answer = hex2rgb(value);
-        
-        if (value.length == 7 && error == false) {
+
+        if (value.length > 7) {
             setOutputColor('Ошибка!');
             document.body.style.backgroundColor = 'red';
-        }
+        };
+        
+        if ((value.length == 7) && (!error)) {
+            setOutputColor('Ошибка!');
+            document.body.style.backgroundColor = 'red';
+        };
         
         if (value.length == 7 && answer != null) {
-            setOutputColor(`rgb(${answer.r}, ${answer.g}, ${answer.b})`)
+            setOutputColor(`rgb(${answer.r}, ${answer.g}, ${answer.b})`);
             document.body.style.backgroundColor = value;
-        }
+        };
         
 
         setForm((prev) => ({ ...prev, [name]: value }));
@@ -35,12 +40,7 @@ export const ColorConverter: FC = () => {
     
     function hex2rgb(c: string) {
         let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(c);
-        if (!result) {
-            setError(false)
-        } else {
-            setError(true)
-        }
-
+        setError(!!result);
 
         return result ? {
             r: parseInt(result[1], 16),
@@ -56,6 +56,5 @@ export const ColorConverter: FC = () => {
                 <output className='output'>{outputColor}</output>
             </div>
         </form>
-    )
-}
-
+    );
+};
